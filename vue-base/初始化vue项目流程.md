@@ -1,4 +1,4 @@
-### 使用vue全家桶开发，需要注意或者修改步骤图，后期有修改或者补充会更新
+### 使用vue全家桶开发，需要注意或者修改步骤图
 1. 通过vue脚手架webpack搭建项目`vue init webpack first-project`
 2. 给index.html 添加mete标签，可以引入文件（如样式重置，js封装方法等）
 3. 安装css预编译，我推荐scss(sass)格式，安装程序`npm install sass-loader node-sass --save-dev`,就可以在vue文件中`lang="scss"`属性
