@@ -1,20 +1,20 @@
 # echarts使用过程中常用option配置需求
 ## 布局设置，显示更多，减少空间浪费
 ~~~ javascript
-grid: {
-    axisLabel: {
-        interval: 0, //设置成 0 强制显示所有标签
-        rotate: 0 //设置旋转的角度，默认为0
-    }
-}
-~~~
-## x轴文字显示不全的问题
-~~~ javascript
 xAxis: { //值可以是像 20 这样的具体像素值，可以是像 '20%' 这样相对于容器高宽的百分比。
     left: 10, //grid 组件离容器左侧的距离。
     top: 60, //grid 组件离容器上侧的距离。
     right: 10, //grid 组件离容器右侧的距离。
     bottom: 60 //grid 组件离容器下侧的距离。
+}
+~~~
+## x轴文字显示不全的问题
+~~~ javascript
+grid: {
+    axisLabel: {
+        interval: 0, //设置成 0 强制显示所有标签
+        rotate: 0 //设置旋转的角度，默认为0
+    }
 }
 ~~~
 ## 柱状图太粗
