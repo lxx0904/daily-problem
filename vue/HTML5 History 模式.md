@@ -44,3 +44,6 @@ module.exports = {
     publicPath: '/dist/'
 }
 ~~~
+
+# 访问的路径：http://localhost:8800/dist/
+## <label style="color:red">tip：这里dist可以修改</label>
