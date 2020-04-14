@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="msg">
+        <p>{{msg}}</p>
+    </div>
+    <script src="js/mvvm/compile.js"></script>
+    <script src="js/mvvm/observe.js"></script>
+    <script src="js/mvvm/watcher.js"></script>
+    <script src="js/mvvm/mvvm.js"></script>
+    <script>
+        new MVVM({
+            el: "#app",
+            data: {
+                msg: "兰鑫鑫"
+            }
+        });
+    </script>
+</body>
+
+</html>

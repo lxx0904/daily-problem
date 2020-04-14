@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{name}}</p>
+        <p>{{wife.name}}</p>
+        <button v-on:click="updata">更新</button>
+    </div>
+    <script src="js/mvvm/compile.js"></script>
+    <script src="js/mvvm/observe.js"></script>
+    <script src="js/mvvm/watcher.js"></script>
+    <script src="js/mvvm/mvvm.js"></script>
+    <script>
+        new MVVM({
+            el: "#app",
+            data: {
+                name: "兰鑫鑫",
+                wife: {
+                    name: "张三",
+                    age: 18
+                }
+            },
+            methods: {
+                updata: function () {
+                    this.name = "111";
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

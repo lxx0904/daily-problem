@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .big {
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p v-text="msg"></p>
+        <p v-html="msg"></p>
+        <p class="big" v-class="color">我是红色</p>
+    </div>
+    <script src="js/mvvm/compile.js"></script>
+    <script src="js/mvvm/observe.js"></script>
+    <script src="js/mvvm/watcher.js"></script>
+    <script src="js/mvvm/mvvm.js"></script>
+    <script>
+        new MVVM({
+            el: "#app",
+            data: {
+                msg: "<a href='https://www.baidu.com'>百度</a>",
+                color: 'red'
+            }
+        });
+    </script>
+</body>
+
+</html>
