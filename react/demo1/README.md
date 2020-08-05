@@ -2,6 +2,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+### `线上地址`
+点击 [https://lxx0904.github.io/daily-problem/react/demo1/build/index.html](https://lxx0904.github.io/daily-problem/react/demo1/build/index.html) .
+
 In the project directory, you can run:
 
 ### `npm start`
