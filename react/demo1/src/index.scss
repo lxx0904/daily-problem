@@ -1,0 +1,55 @@
+.container {
+  padding: 60px 0 0;
+  text-align: center;
+  font-size: 24px;
+}
+
+.ant-form.form-login {
+  width: 300px;
+  margin: 60px auto 0;
+  button {
+    width: 100%;
+  }
+}
+
+.home {
+  height: 100vh;
+  background-color: #26bdcd;
+  h1 {
+    padding-top: 60px;
+    color: #ffffff;
+    font-size: 24px;
+    text-align: center;
+  }
+  .wrap {
+    width: 800px;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    .nav {
+      border-bottom: 1px solid #aaeeaa;
+      margin-bottom: 20px;
+      a {
+        display: inline-block;
+        width: 25%;
+        padding: 0 0 10px 0;
+        text-align: center;
+        color: #000;
+        font-weight: bold;
+        &.active {
+          color: #26bdcd;
+        }
+      }
+    }
+    p {
+      font-size: 12px;
+      color: #999999;
+    }
+    .link-nav {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+  }
+}
