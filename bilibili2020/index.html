@@ -20,13 +20,13 @@
 		<link rel="stylesheet" type="text/css" href="cross-year.css" />
 	</head>
 
-	<body class="wide">
+	<body>
 		<div id="app">
 			<div class="anime-bg" style="transform: scale(0.801) translateZ(0px);">
 				<div class="body-bg" style="transform: scale(2); opacity: 0;"></div>
 				<div class="kv-bg" style="transform: translateY(0px); opacity: 1;"></div>
 				<div class="kv-sun" style="transform: translateY(0px); opacity: 1;"></div>
-				<!--<div class="star-layer"><canvas width="1920" height="1080" style="touch-action: none; cursor: inherit; display: none;"></canvas></div>-->
+				<div class="star-layer"><canvas width="1920" height="1080" style="cursor: inherit;"></canvas></div>
 				<div class="kv-cloud-l" style="transform: scale(1); opacity: 1;"></div>
 				<div class="kv-cloud-r" style="transform: scale(1); opacity: 1;"></div>
 				<div class="kv-man" style="transform: scale(1); opacity: 1;"></div>
@@ -54,54 +54,96 @@
 		<script src="./jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			$(function() {
-				function setStyle(top) {
-					if(top > 730) $(".anime-bg").addClass("no-anime");
-					var ratio = Math.min(730, top) / 730;
-					$(".body-bg").css({
-//						bgBodyStyle
-						transform: "scale(".concat(2 - ratio, ")"),
-                    	opacity: ratio
-					});
-					$(".kv-bg").css({
-//						bgKvStyle
-						transform: "translateY(-".concat(Math.ceil(40 * ratio), "px)"),
-                    	opacity: 1 - ratio
-					})
-					$(".kv-sun").css({
-//						sunStyle
-						transform: "translateY(-".concat(Math.ceil(80 * ratio), "px)"),
-                    	opacity: 1 - ratio
-					})
-					$(".kv-cloud-l").css({
-//						cloudBirdStyle
-						transform: "scale(".concat(1 + ratio, ")"),
-                    	opacity: 1 - ratio
-					})
-					$(".kv-cloud-r").css({
-//						cloudBirdStyle
-						transform: "scale(".concat(1 + ratio, ")"),
-                    	opacity: 1 - ratio
-					})
-					$(".kv-man").css({
-//						manStyle
-						transform: "scale(".concat(1 - .4 * ratio, ")"),
-                    	opacity: 1 - ratio
-					})
-					$(".kv-bird").css({
-//						cloudBirdStyle
-						transform: "scale(".concat(1 + ratio, ")"),
-                    	opacity: 1 - ratio
-					})
-					$(".shadow").css({
-               			opacity: 1 - ratio
-					})
-				}
 				setStyle($(window).scrollTop());
+				setTimeout(drawStar, 2000)
 				$(window).scroll(function() {
 					var top = $(this).scrollTop();
 					setStyle(top);
 				})
 			});
+
+			function setStyle(top) {
+				if(top > 730) $(".anime-bg").addClass("no-anime");
+				var ratio = Math.min(730, top) / 730;
+				$(".body-bg").css({
+					transform: "scale(".concat(2 - ratio, ")"),
+					opacity: ratio
+				});
+				$(".kv-bg").css({
+					transform: "translateY(-".concat(Math.ceil(40 * ratio), "px)"),
+					opacity: 1 - ratio
+				})
+				$(".kv-sun").css({
+					transform: "translateY(-".concat(Math.ceil(80 * ratio), "px)"),
+					opacity: 1 - ratio
+				})
+				$(".kv-cloud-l").css({
+					transform: "scale(".concat(1 + ratio, ")"),
+					opacity: 1 - ratio
+				})
+				$(".kv-cloud-r").css({
+					transform: "scale(".concat(1 + ratio, ")"),
+					opacity: 1 - ratio
+				})
+				$(".kv-man").css({
+					transform: "scale(".concat(1 - .4 * ratio, ")"),
+					opacity: 1 - ratio
+				})
+				$(".kv-bird").css({
+					transform: "scale(".concat(1 + ratio, ")"),
+					opacity: 1 - ratio
+				})
+				$(".shadow").css({
+					opacity: 1 - ratio
+				})
+			}
+
+			function drawStar() {
+				$.getJSON("kv-star.json", function(data) {
+					var c = $("canvas")[0];
+					var ctx = c.getContext("2d");
+					var meta = data.meta;
+					var frames = data.frames;
+					var img = new Image();
+					var timer = null;
+					var index = 0;
+					img.onload = function() {
+						timer = setInterval(function() {
+							draw();
+						}, 1000 / 16)
+					}
+					img.src = meta.image;
+
+					function draw() {
+						index += 1;
+						ctx.clearRect(0, 0, c.width, c.height);
+						var frame = frames['kv_star_' + index + '.png'].frame;
+						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, 516, 365, frame.w, frame.h);
+						if(index > 40) {
+							clearInterval(timer);
+							timer = null;
+							index = 0;
+							timer = setInterval(function() {
+								draw1(200, 80, 350, 180, 360, 580, 1250, 40);
+							}, 1000 / 16)
+						}
+					}
+					
+					function draw1(x1, y1, x2, y2, x3, y3, x4, y4) {
+						index += 1;
+						ctx.clearRect(0, 0, c.width, c.height);
+						var frame = frames['kv_star_' + index + '.png'].frame;
+						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, x1, y1, frame.w, frame.h);
+						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, x2, y2, frame.w, frame.h);
+						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, x3, y3, frame.w, frame.h);
+						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, x4, y4, frame.w, frame.h);
+						if(index > 40) {
+							clearInterval(timer);
+							timer = null;
+						}
+					}
+				})
+			}
 		</script>
 	</body>
 
