@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>call apply bind</title>
+</head>
+<body>
+    <script>
+        Function.prototype.call = function(obj, ...args) {
+            if(obj === undefined || obj === null) {
+                obj = window;
+            }
+            obj.fn = this;
+            let result = obj.fn(...args);
+            delete obj.fn;
+            return result;
+        }
+        Function.prototype.apply = function(obj, args) {
+            if(obj === undefined || obj === null) {
+                obj = window;
+            }
+            obj.fn = this;
+            let result = obj.fn(...args);
+            delete obj.fn;
+            return result;
+        }
+        Function.prototype.bind = function(obj, ...args) {
+            let self = this;
+            return function (...args2) {
+                self.call(obj, ...args, ...args2)
+            }
+        }
+    </script>
+    <script>
+        function fn(a, b) {
+            this.c = a + b;
+            console.log(a, b, this);
+        }
+        fn.call(null, 1, 2);
+        var obj = {
+          x: 1  
+        };
+        fn.call(obj, 2, 3);
+        fn.apply(obj, [1, 2]);
+        fn.bind(obj)(4, 5);
+        fn.bind(obj, 2)(4, 5);
+        fn.bind(obj, 2, 2)(4, 5);
+    </script>
+</body>
+</html>

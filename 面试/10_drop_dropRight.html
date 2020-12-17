@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10_drop_dropRight</title>
+</head>
+
+<body>
+    <script>
+        Array.prototype.drop = function (count = 1) {
+            if (count < 1) count = 1
+            return this.filter((item, index) => index >= count)
+        }
+
+        Array.prototype.dropRight = function (count = 1) {
+            if (count < 1) count = 1
+            return this.filter((item, index) => index < this.length - count)
+        }
+    </script>
+
+    <script>
+        console.log([1, 2, 3, 4, 5, 6].drop(2))
+        console.log([1, 2, 3, 4, 5, 6].drop(3))
+        console.log([1, 2, 3, 4, 5, 6].drop())
+        console.log([1, 2, 3, 4, 5, 6].dropRight(2))
+        console.log([1, 2, 3, 4, 5, 6].dropRight(3))
+        console.log([1, 2, 3, 4, 5, 6].dropRight(0))
+    </script>
+</body>
+
+</html>

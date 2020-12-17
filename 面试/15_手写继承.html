@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15_手写继承</title>
+</head>
+<body>
+    <script>
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype.eat = function() {
+            console.log(`${this.name} eat`)
+        }
+
+        function Student(name, age, sex) {
+            this.sex = sex;
+            Person.call(this, name, age)
+        }
+        Student.prototype.say = function() {
+            console.log(`${this.name} say`)
+        }
+        Student.prototype = Object.assign(Object.create(Student.prototype), Person.prototype);
+        Student.prototype.constructor= Student;
+        const s = new Student('xiaoming', 'man', 24);
+        console.log(s);
+        s.eat();
+        s.say();
+    </script>
+</body>
+</html>

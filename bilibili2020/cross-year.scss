@@ -1,0 +1,236 @@
+@keyframes bg-in {
+	0% {
+		transform: scale(1.1)
+	}
+	to {
+		transform: scale(1)
+	}
+}
+
+@keyframes sun-in {
+	0% {
+		transform: translateY(-20px)
+	}
+	to {
+		transform: translateY(0)
+	}
+}
+
+@keyframes cloud-l-in {
+	0% {
+		transform: scale(1.1) translate(-40px, -20px);
+		opacity: .6
+	}
+	60% {
+		transform: scale(1) translate(-20px, -5px);
+		opacity: 1
+	}
+	to {
+		transform: scale(1) translate(0);
+		opacity: 1
+	}
+}
+
+@keyframes cloud-r-in {
+	0% {
+		transform: scale(1.1) translate(40px, -20px);
+		opacity: .6
+	}
+	60% {
+		transform: scale(1) translate(20px, -5px);
+		opacity: 1
+	}
+	to {
+		transform: scale(1) translate(0);
+		opacity: 1
+	}
+}
+
+@keyframes man-in {
+	0% {
+		transform: translateY(40px)
+	}
+	to {
+		transform: translateY(0)
+	}
+}
+
+@keyframes little-star {
+	0% {
+		opacity: .1
+	}
+	20% {
+		opacity: 1
+	}
+	40% {
+		opacity: .3
+	}
+	60% {
+		opacity: 1
+	}
+	80% {
+		opacity: .4
+	}
+	to {
+		opacity: .1
+	}
+}
+
+#app {
+    background: #131a3f;
+    user-select: none;
+    overflow: hidden;
+}
+
+.anime-bg {
+	display: block;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin: -540px -960px;
+	width: 1920px;
+	height: 1080px;
+	overflow: hidden;
+	z-index: 1;
+	pointer-events: none;
+	&>div {
+		pointer-events: none;
+	}
+	&.no-anime>div {
+		animation: none
+	}
+	.body-bg {
+		background-image: url(body_bg.png)
+	}
+	.body-bg,
+	.kv-bg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: 50%;
+		background-repeat: no-repeat
+	}
+	.kv-bg {
+		background-image: url(kv_bg.png);
+		transform-origin: center;
+		animation: bg-in 1s ease-out .3s backwards
+	}
+	.kv-sun {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		margin-left: -375px;
+		width: 750px;
+		height: 672px;
+		background-image: url(kv_sun.png);
+		background-size: contain;
+		transform-origin: center;
+		animation: sun-in 1s ease-out .3s backwards;
+		background-position: 50%;
+		background-repeat: no-repeat
+	}
+	.star-layer {
+		position: absolute;
+		top: 0;
+		left: 0
+	}
+	.star-layer,
+	.star-layer canvas {
+		width: 100%;
+		height: 100%
+	}
+	.kv-cloud-l {
+		left: 0;
+		width: 1608px;
+		height: 843px;
+		background-image: url(kv_cloud_l.png);
+		transform-origin: 1000px 200px;
+		animation: cloud-l-in 1.5s linear .3s backwards
+	}
+	.kv-cloud-l,
+	.kv-cloud-r {
+		position: absolute;
+		bottom: 0;
+		background-size: cover;
+		background-position: 50%;
+		background-repeat: no-repeat
+	}
+	.kv-cloud-r {
+		right: 0;
+		width: 1684px;
+		height: 899px;
+		background-image: url(kv_cloud_r.png);
+		transform-origin: 684px 256px;
+		animation: cloud-r-in 1.5s linear .3s backwards
+	}
+	.kv-man {
+		bottom: 0;
+		right: 0;
+		width: 1577px;
+		height: 561px;
+		background-image: url(kv_man.png);
+		transform-origin: 617px 280px;
+		animation: man-in 1.5s ease-out .3s backwards
+	}
+	.kv-bird,
+	.kv-man {
+		position: absolute;
+		background-size: cover
+	}
+	.kv-bird {
+		top: 260px;
+		left: 50%;
+		margin-left: -896px;
+		width: 1792px;
+		height: 625px;
+		background-image: url(kv_bird.png);
+		transform-origin: center;
+		animation: bg-in 1s ease-out .3s backwards;
+		background-position: 50%;
+		background-repeat: no-repeat
+	}
+	.little-star {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		.star {
+			position: absolute;
+			width: 6px;
+			height: 6px;
+			border-radius: 3px;
+			background-color: hsla(0, 0%, 100%, .8);
+			box-shadow: 0 0 3px 3px rgba(78, 167, 243, .4);
+			animation: little-star 3s ease infinite backwards;
+			&.scale-8 {
+				transform: scale(.8)
+			}
+			&.scale-6 {
+				transform: scale(.6)
+			}
+			&.scale-4 {
+				transform: scale(.4)
+			}
+			&.delay-1 {
+				animation-delay: 1s
+			}
+		}
+	}
+	.shadow {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 655px;
+		background: linear-gradient(0deg, #0f1d4e, rgba(15, 39, 103, 0) 80%)
+	}
+}
+
+.cross-year-2020 {
+	position: relative;
+    z-index: 2;
+}

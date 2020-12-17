@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12_object_merge</title>
+</head>
+
+<body>
+    <script>
+        Object.prototype.merge = function (...objs) {
+            let result = {
+                ...this
+            };
+            objs.forEach(obj => {
+                Object.keys(obj).forEach(key => {
+                    const value = obj[key];
+                    if (result.hasOwnProperty(key)) {
+                        result[key] = [].concat(result[key], value)
+                    } else {
+                        result[key] = value;
+                    }
+                })
+            });
+            return result
+        }
+    </script>
+
+    <script>
+        console.log({
+            a: 1,
+            b: [1, 2],
+            c: {
+                d: "1"
+            }
+        }.merge({
+            a: 2,
+            b: [3, 4],
+            e: "1"
+        }, {
+            c: {
+                c: 2
+            },
+            e: "2"
+        }))
+    </script>
+</body>
+
+</html>

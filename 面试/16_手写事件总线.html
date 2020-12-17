@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16_手写事件总线</title>
+</head>
+<body>
+    <script>
+        class Event {
+            constructor() {
+                this.handlers = {}
+            }
+
+            on(eventName, cb) {
+                const eventCallbackStack = this._getHandler(eventName).callbackStack
+                eventCallbackStack.push(cb)
+            }
+
+            emit(eventName, ...args) {
+                if(this.handlers[eventName]) {
+                    this.handlers[eventName].callbackStack.forEach(cb => {
+                        cb.call(cb, ...args)
+                    })
+                    if(this.handlers[eventName].isOnce) {
+                        this.off(eventName)
+                    }
+                } else {
+                    console.error(`${eventName} is undefined`)
+                }
+            }
+
+            off(eventName) {
+                this.handlers[eventName] && delete this.handlers[eventName]
+            }
+
+            once(eventName, cb) {
+                const eventCallbackStack = this._getHandler(eventName, true).callbackStack
+                eventCallbackStack.push(cb)
+            }
+
+            /*
+                根据事件名获取对象
+            */
+            _getHandler(eventName, isOnce = false) {
+                if(!this.handlers[eventName]) {
+                    this.handlers[eventName] = {
+                        isOnce,
+                        callbackStack: [],
+                    }
+                }
+                return this.handlers[eventName]
+            }
+        }
+
+        const event = new Event()
+        event.on('listen', function(a, b){
+            console.log('监听到listen事件：', a, b)
+        })
+        event.emit('listen', 1, 2)
+        event.emit('listen', 1, 2)
+        event.once('once', function (a,b) {
+            console.log('监听到once事件：',a, b)
+        })
+        event.emit('once', 1, 2)
+        event.emit('once', 1, 2)
+    </script>
+</body>
+</html>

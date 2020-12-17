@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>concat slice</title>
+</head>
+
+<body>
+    <script>
+        Array.prototype.concat = function (...args) {
+            let arr = [...this];
+            args.forEach(element => {
+                if (Array.isArray(element)) {
+                    arr.push(...element)
+                } else {
+                    arr.push(element)
+                }
+            });
+            return arr
+        }
+
+        Array.prototype.slice = function (begin, end) {
+            let arr = [];
+            if (this.length === 0) {
+                return arr
+            }
+            begin = begin || 0
+            end = end || this.length
+            if (end > this.length) {
+                end = this.length
+            }
+            if (begin > end) {
+                return arr
+            }
+            for (let index = begin; index < end; index++) {
+                arr.push(this[index])
+            }
+            return arr
+        }
+    </script>
+    <script>
+        console.log([1].concat(1, [2, 3], 4))
+        console.log([1, 2, 4, 5, 6, 7, 8].slice(0, 2))
+        console.log([1, 2, 4, 5, 6, 7, 8].slice(1, 4))
+        console.log([1, 2, 4, 5, 6, 7, 8].slice())
+        console.log([1, 2, 4, 5, 6, 7, 8].slice(1, 10))
+    </script>
+</body>
+
+</html>

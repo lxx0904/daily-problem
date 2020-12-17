@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流 防抖</title>
+</head>
+
+<body>
+    <button id="throttle">测试函数节流</button>
+    <button id="debounce">测试函数防抖</button>
+    <script>
+        function handleClick(event) {
+            console.log("点击事件", this, event);
+        }
+
+        function throttle(callback, delay) {
+            let pre = 0;
+            return function (event) {
+                console.log("节流事件");
+                let now = Date.now();
+                if (now - pre > delay) {
+                    callback.call(this, event);
+                    pre = now;
+                }
+            }
+        }
+
+        function debounce(callback, delay) {
+            let timeout = null;
+            return function (event) {
+                console.log("防抖事件");
+                timeout && clearTimeout(timer);
+                timeout = setTimeout(() => {
+                    callback.call(this, event);
+                    timeout = null
+                }, delay)
+            }
+        }
+        document.getElementById("throttle").onclick = throttle(handleClick, 2000);
+        document.getElementById("debounce").onclick = debounce(handleClick, 2000);
+    </script>
+</body>
+
+</html>

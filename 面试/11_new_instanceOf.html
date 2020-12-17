@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11_new_instanceOf</title>
+</head>
+
+<body>
+    <script>
+        function newInstance(Fn, ...args) {
+            let obj = {};
+            let result = Fn.call(obj, ...args);
+            if (result instanceof Object) {
+                return result
+            }
+            obj.__proto__ = Fn.prototype; // 将构造函数的显示原型属性赋值实例对象的隐式原型属性
+            return obj
+        }
+
+        function myInstanceOf(person, Type) {
+            let myproto = person.__proto__
+            while (myproto !== null) {
+                if (myproto === Type.prototype) {
+                    return true
+                }
+                myproto = myproto.__proto__
+            }
+            return false
+        }
+    </script>
+
+    <script>
+        function Test(name) {
+            this.name = name
+            this.a = 1
+        }
+        console.log(new Test("lan"))
+        console.log(newInstance(Test, "lan"))
+        let t = newInstance(Test, "lan")
+        console.log(myInstanceOf(t, Test))
+        console.log(myInstanceOf(Test, Function))
+        console.log(myInstanceOf(Test, Object))
+        let t1 = new Test("lan")
+        console.log(myInstanceOf(t1, Test))
+        console.log(myInstanceOf(t1, Function))
+    </script>
+</body>
+
+</html>

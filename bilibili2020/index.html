@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>“2020最美的夜”bilibili晚会</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no">
+		<style type="text/css">
+			body,
+			div,
+			h4,
+			html,
+			li,
+			span,
+			ul {
+				padding: 0;
+				margin: 0
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="cross-year.css" />
+	</head>
+
+	<body class="wide">
+		<div id="app">
+			<div class="anime-bg" style="transform: scale(0.801) translateZ(0px);">
+				<div class="body-bg" style="transform: scale(2); opacity: 0;"></div>
+				<div class="kv-bg" style="transform: translateY(0px); opacity: 1;"></div>
+				<div class="kv-sun" style="transform: translateY(0px); opacity: 1;"></div>
+				<!--<div class="star-layer"><canvas width="1920" height="1080" style="touch-action: none; cursor: inherit; display: none;"></canvas></div>-->
+				<div class="kv-cloud-l" style="transform: scale(1); opacity: 1;"></div>
+				<div class="kv-cloud-r" style="transform: scale(1); opacity: 1;"></div>
+				<div class="kv-man" style="transform: scale(1); opacity: 1;"></div>
+				<div class="kv-bird" style="transform: scale(1); opacity: 1;"></div>
+				<div class="little-star">
+					<div class="star scale-8" style="top: 200px; right: 380px;"></div>
+					<div class="star scale-6 delay-1" style="top: 240px; right: 360px;"></div>
+					<div class="star scale-4" style="top: 200px; left: 300px;"></div>
+					<div class="star scale-8 delay-1" style="top: 900px; left: 100px;"></div>
+					<div class="star scale-6" style="top: 780px; left: 460px;"></div>
+					<div class="star scale-8 delay-1" style="top: 60px; left: 1100px;"></div>
+					<div class="star scale-6 delay-1" style="top: 20px; right: 420px;"></div>
+					<div class="star scale-6" style="top: 520px; right: 420px;"></div>
+					<div class="star scale-8 delay-1" style="top: 700px; right: 500px;"></div>
+					<div class="star scale-8" style="bottom: 160px; right: 200px;"></div>
+					<div class="star scale-8 delay-1" style="bottom: 300px; left: 1300px;"></div>
+				</div>
+				<div class="shadow" style="opacity: 1;"></div>
+			</div>
+			<div class="cross-year-2020">
+				<div style="height: 730px;"></div>
+				<div class="inner-content-box" style="height: 5000px; width: 980px; margin: 0 auto 20px; background-color: gray;"></div>
+			</div>
+		</div>
+		<script src="./jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+				function setStyle(top) {
+					if(top > 730) $(".anime-bg").addClass("no-anime");
+					var ratio = Math.min(730, top) / 730;
+					$(".body-bg").css({
+//						bgBodyStyle
+						transform: "scale(".concat(2 - ratio, ")"),
+                    	opacity: ratio
+					});
+					$(".kv-bg").css({
+//						bgKvStyle
+						transform: "translateY(-".concat(Math.ceil(40 * ratio), "px)"),
+                    	opacity: 1 - ratio
+					})
+					$(".kv-sun").css({
+//						sunStyle
+						transform: "translateY(-".concat(Math.ceil(80 * ratio), "px)"),
+                    	opacity: 1 - ratio
+					})
+					$(".kv-cloud-l").css({
+//						cloudBirdStyle
+						transform: "scale(".concat(1 + ratio, ")"),
+                    	opacity: 1 - ratio
+					})
+					$(".kv-cloud-r").css({
+//						cloudBirdStyle
+						transform: "scale(".concat(1 + ratio, ")"),
+                    	opacity: 1 - ratio
+					})
+					$(".kv-man").css({
+//						manStyle
+						transform: "scale(".concat(1 - .4 * ratio, ")"),
+                    	opacity: 1 - ratio
+					})
+					$(".kv-bird").css({
+//						cloudBirdStyle
+						transform: "scale(".concat(1 + ratio, ")"),
+                    	opacity: 1 - ratio
+					})
+					$(".shadow").css({
+               			opacity: 1 - ratio
+					})
+				}
+				setStyle($(window).scrollTop());
+				$(window).scroll(function() {
+					var top = $(this).scrollTop();
+					setStyle(top);
+				})
+			});
+		</script>
+	</body>
+
+</html>

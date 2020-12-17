@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13_deepClone</title>
+</head>
+
+<body>
+    <script>
+        /*
+            方法一
+            函数属性 和 undefined 会丢失
+            循环引用会出错
+        */
+        function deepClone1(target) {
+            return JSON.parse(JSON.stringify(target))
+        }
+        /*
+            方法二
+            解决了：函数属性 和 undefined 会丢失
+            循环引用会出错
+        */
+        function deepClone2(target) {
+            if (target instanceof Array || (target !== null && typeof target === "object")) {
+                const cloneTarget = target instanceof Array ? [] : {}
+                for (const key in target) {
+                    if (target.hasOwnProperty(key)) {
+                        cloneTarget[key] = deepClone2(target[key])
+                    }
+                }
+                return cloneTarget
+            } else {
+                return target
+            }
+        }
+        /*
+            方法三
+            解决了：函数属性 和 undefined 会丢失
+            解决了：循环引用会出错
+            思路：
+                同一对象/数组只能被复制一次
+                创建克隆对象前：如果克隆对象已经存在，直接返回
+                创建克隆对象后：报错克隆对象
+                缓存对象结构：Map key: target, value: cloneTarget
+        */
+        function deepClone3(target, map = new Map()) {
+            if (target instanceof Array || (target !== null && typeof target === "object")) {
+                let cloneTarget = map.get(target)
+                if (cloneTarget) {
+                    return cloneTarget
+                }
+                cloneTarget = target instanceof Array ? [] : {}
+                map.set(target, cloneTarget)
+                for (const key in target) {
+                    if (target.hasOwnProperty(key)) {
+                        cloneTarget[key] = deepClone3(target[key], map)
+                    }
+                }
+                return cloneTarget
+            } else {
+                return target
+            }
+        }
+        /*
+            方法四
+            优化：数组循环for...in改成forEach
+        */
+        function deepClone4(target, map = new Map()) {
+            if (target instanceof Array || (target !== null && typeof target === "object")) {
+                let cloneTarget = map.get(target)
+                if (cloneTarget) {
+                    return cloneTarget
+                }
+                if(target instanceof Array) {
+                    cloneTarget = []
+                    map.set(target, cloneTarget)
+                    target.forEach((item, index) => {
+                        cloneTarget[index] = deepClone4(item, map)
+                    })
+                } else {
+                    cloneTarget = {}
+                    map.set(target, cloneTarget)
+                    for (const key in target) {
+                        if (target.hasOwnProperty(key)) {
+                            cloneTarget[key] = deepClone4(target[key], map)
+                        }
+                    }
+                }
+                return cloneTarget
+            } else {
+                return target
+            }
+        }
+    </script>
+</body>
+<script>
+    let obj1 = {
+        a: 1,
+        b: ['e', 'f', 'g'],
+        c: {
+            h: {
+                i: 2
+            }
+        },
+        d: function () {}
+    }
+    obj1.b.push(obj1.c)
+    obj1.c.j = obj1.b
+    // let deepobj1 = deepClone1(obj1)
+    // console.log(deepobj1, obj1.b === deepobj1.b, obj1.c === deepobj1.c)
+    // let deepobj2 = deepClone2(obj1)
+    // console.log(deepobj2, obj1.b === deepobj2.b, obj1.c === deepobj2.c, obj1.d === deepobj2.d)
+    // let deepobj3 = deepClone3(obj1)
+    // console.log(deepobj3, obj1.b === deepobj3.b, obj1.c === deepobj3.c, obj1.d === deepobj3.d)
+    let deepobj4 = deepClone4(obj1)
+    console.log(deepobj4, obj1.b === deepobj4.b, obj1.c === deepobj4.c, obj1.d === deepobj4.d)
+</script>
+
+</html>

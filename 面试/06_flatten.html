@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多维数组转成一维数组</title>
+</head>
+
+<body>
+    <script>
+        //第一种 递归 + reduce + concat
+        Array.prototype.flatten1 = function () {
+            let arr = this.reduce((pre, item) => {
+                pre = pre.concat(Array.isArray(item) === true ? item.flatten1() : item)
+                return pre
+            }, [])
+            return arr;
+        }
+        // 第二种 ... + while + some (性能高)
+        Array.prototype.flatten2 = function () {
+            let arr = [].concat(...this)
+            while (arr.some(item => Array.isArray(item))) {
+                arr = [].concat(...arr)
+            }
+            return arr
+        }
+    </script>
+
+    <script>
+        console.log([1, [2, 3, [4, 5, 6, [7]]]].flatten1())
+        console.log([1, [2, 3, [4, 5, 6, [7]]]].flatten2())
+    </script>
+</body>
+
+</html>

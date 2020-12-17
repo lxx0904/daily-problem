@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>去重合并</title>
+</head>
+
+<body>
+    <script>
+        Array.prototype.defference = function (arr = []) {
+            if (arr.length === 0) {
+                return this;
+            }
+            return this.filter(item => {
+                return arr.indexOf(item) === -1
+            })
+        }
+
+        Array.prototype.defferences = function (...arrays) {
+            if (arrays.length === 0) {
+                return this;
+            }
+            return this.filter(item => {
+                let result = true
+                for (let index = 0; index < arrays.length; index++) {
+                    const array = arrays[index];
+                    if (array.indexOf(item) !== -1) {
+                        result = false
+                        break
+                    }
+                }
+                return result
+            });
+        }
+
+        Array.prototype.merge = function (...arrays) {
+            if (arrays.length === 0) {
+                return this;
+            }
+            const result = [...this];
+            arrays.forEach(itemArr => {
+                itemArr.forEach(item => {
+                    if (result.indexOf(item) === -1) {
+                        result.push(item)
+                    }
+                })
+            });
+            return result
+        }
+    </script>
+
+    <script>
+        console.log([1, 5, 7].defference([1, 2]))
+        console.log([1, 5, 7].defferences([1, 2], [2, 5]))
+        console.log([1, 5, 7].merge([1, 2], [1, 8], [3, 4, 5]))
+    </script>
+</body>
+
+</html>
