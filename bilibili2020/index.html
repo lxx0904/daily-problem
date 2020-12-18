@@ -22,11 +22,11 @@
 
 	<body>
 		<div id="app">
-			<div class="anime-bg" style="transform: scale(0.801) translateZ(0px);">
+			<div class="anime-bg">
 				<div class="body-bg" style="transform: scale(2); opacity: 0;"></div>
 				<div class="kv-bg" style="transform: translateY(0px); opacity: 1;"></div>
 				<div class="kv-sun" style="transform: translateY(0px); opacity: 1;"></div>
-				<div class="star-layer"><canvas width="1920" height="1080" style="cursor: inherit;"></canvas></div>
+				<div class="star-layer"><canvas id="star" width="1920" height="1080"></canvas></div>
 				<div class="kv-cloud-l" style="transform: scale(1); opacity: 1;"></div>
 				<div class="kv-cloud-r" style="transform: scale(1); opacity: 1;"></div>
 				<div class="kv-man" style="transform: scale(1); opacity: 1;"></div>
@@ -47,20 +47,61 @@
 				<div class="shadow" style="opacity: 1;"></div>
 			</div>
 			<div class="cross-year-2020">
-				<div style="height: 730px;"></div>
-				<div class="inner-content-box" style="height: 5000px; width: 980px; margin: 0 auto 20px; background-color: gray;"></div>
+				<div class="" style="height: 2000px;"></div>
+				<div style="position: relative; height: 5000px; width: 980px; margin: 0 auto;">
+					<div class="star-item-wrapper" style="position: absolute; width: 50px; height: 50px;top: 50px; left: 50px;"><canvas width="170" height="80"></canvas></div>
+					<div class="star-item-wrapper" style="position: absolute; width: 50px; height: 50px;top: 500px; left: 100px;"><canvas width="170" height="80"></canvas></div>
+				</div>
 			</div>
 		</div>
 		<script src="./jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
+			function getWindowW() {
+				return window.innerWidth || window.document.documentElement.clientWidth || window.screen.width
+			}
+
+			function getWindowH() {
+				return window.innerHeight || document.documentElement.clientHeight || window.screen.height
+			}
+
+			function getScrollTop() {
+				return Math.max(window.pageYOffset || 0, window.document.documentElement.scrollTop || window.document.body.scrollTop)
+			}
+
 			$(function() {
-				setStyle($(window).scrollTop());
-				setTimeout(drawStar, 2000)
+				init();
+				setStyle(getScrollTop());
+				setTimeout(drawStar, 2000);
+				var x = document.querySelectorAll(".star-item-wrapper");
+				$.each(x, function(index, item) {
+					drawbling(item.children[0])
+				});
 				$(window).scroll(function() {
 					var top = $(this).scrollTop();
 					setStyle(top);
 				})
 			});
+
+			function init() {
+				var h = getWindowH();
+				var ratio = h / 1080;
+				setW(ratio)
+				window.addEventListener("resize", function() {
+					h = getWindowH();
+					ratio = h / 1080;
+					setW(ratio)
+				})
+			}
+
+			function setW(ratio) {
+				var w = getWindowW();
+				if(w > (ratio * 1920)) {
+					var _ratio = w / 1920;
+					$(".anime-bg").css({
+						transform: "scale(".concat(_ratio.toFixed(3), ")", " translateZ(0px)")
+					});
+				}
+			}
 
 			function setStyle(top) {
 				if(top > 730) $(".anime-bg").addClass("no-anime");
@@ -100,7 +141,7 @@
 
 			function drawStar() {
 				$.getJSON("kv-star.json", function(data) {
-					var c = $("canvas")[0];
+					var c = $("#star")[0];
 					var ctx = c.getContext("2d");
 					var meta = data.meta;
 					var frames = data.frames;
@@ -128,7 +169,7 @@
 							}, 1000 / 16)
 						}
 					}
-					
+
 					function draw1(x1, y1, x2, y2, x3, y3, x4, y4) {
 						index += 1;
 						ctx.clearRect(0, 0, c.width, c.height);
@@ -140,6 +181,39 @@
 						if(index > 40) {
 							clearInterval(timer);
 							timer = null;
+						}
+					}
+				})
+			}
+			
+			function drawbling(dom) {
+				$.getJSON("bling.json", function(data) {
+					var c = dom;
+					var ctx = c.getContext("2d");
+					var meta = data.meta;
+					var frames = data.frames;
+					var img = new Image();
+					var timer = null;
+					var index = 0;
+					img.onload = function() {
+						timer = setInterval(function() {
+							draw();
+						}, 1000 / 16)
+					}
+					img.src = meta.image;
+
+					function draw() {
+						index += 1;
+						ctx.clearRect(0, 0, c.width, c.height);
+						var frame = frames['bling_' + index + '.png'].frame;
+						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, 60, -10, frame.w, frame.h);
+						if(index > 23) {
+							clearInterval(timer);
+							timer = null;
+							index = 0;
+							timer = setInterval(function() {
+								draw();
+							}, 1000 / 16)
 						}
 					}
 				})
