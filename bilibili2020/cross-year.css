@@ -42,5 +42,31 @@
 .anime-bg .shadow { position: absolute; bottom: 0; left: 0; width: 100%; height: 655px; background: linear-gradient(0deg, #0f1d4e, rgba(15, 39, 103, 0) 80%); }
 
 .cross-year-2020 { position: relative; z-index: 2; }
+.cross-year-2020 .inner-content-box { text-align: center; color: #fff; }
+.cross-year-2020 .inner-content-box > div { position: relative; width: 1220px; margin: 0 auto; height: 1000px; }
+.cross-year-2020 .inner-content-box .star-item-wrapper { position: absolute; width: 50px; height: 50px; }
+.cross-year-2020 .side-nav { z-index: 999; position: fixed; right: 0; top: 50%; width: 254px; height: 100%; transform: translateY(-50%); font-size: 28px; font-weight: 400; opacity: 1; transition: all .3s; background: linear-gradient(-90deg, #3f2ca0, rgba(26, 35, 80, 0)); }
+.cross-year-2020 .side-nav.unvisible { opacity: 0; display: none; }
+.cross-year-2020 .side-nav .full-sidebar { display: flex; height: 100%; width: 176px; float: right; align-items: center; justify-content: center; flex-direction: column; }
+.cross-year-2020 .side-nav .full-sidebar .toggle-wrapper { transition: all .5s; transform: translateX(0); opacity: 1; position: relative; width: 100%; }
+.cross-year-2020 .side-nav .full-sidebar .toggle-wrapper.hided { transform: translateX(110px); opacity: .4; }
+.cross-year-2020 .side-nav .full-sidebar .toggle-wrapper.hided:hover { transform: translateX(90px); opacity: .8; }
+.cross-year-2020 .side-nav .full-sidebar .toggle-wrapper .side-nav-item { cursor: pointer; width: 134px; position: relative; margin: 0 auto 16px; display: block; }
+.cross-year-2020 .side-nav .toggle-icon { position: absolute; left: 0; top: 50%; transform: translateY(15px); width: 9px; height: 17px; cursor: pointer; padding: 10px; }
+.cross-year-2020 .side-nav .toggle-icon.expanded { transform: translateY(15px) rotate(180deg); }
+.cross-year-2020 .side-nav a { color: #bdcef5; text-decoration: none; }
+.cross-year-2020 .side-nav a > div { width: 134px; height: 38px; transition: all .3s ease; background-size: cover; }
+.cross-year-2020 .side-nav .bg-top { width: 82px; height: 62px; margin: 0 auto; background-image: url(ntop.png); }
+.cross-year-2020 .side-nav .bg-top:hover, .cross-year-2020 .side-nav .bg-top.active { background-image: url(ntop_h.png); }
+.cross-year-2020 .side-nav .bg-preview { background-image: url(npreview.png); }
+.cross-year-2020 .side-nav .bg-preview:hover, .cross-year-2020 .side-nav .bg-preview.active { background-image: url(npreview_h.png); }
+.cross-year-2020 .side-nav .bg-guest-star { background-image: url(nguest.png); }
+.cross-year-2020 .side-nav .bg-guest-star:hover, .cross-year-2020 .side-nav .bg-guest-star.active { background-image: url(nguest_h.png); }
+.cross-year-2020 .side-nav .bg-star { background-image: url(nstar.png); }
+.cross-year-2020 .side-nav .bg-star:hover, .cross-year-2020 .side-nav .bg-star.active { background-image: url(nstar_h.png); }
+.cross-year-2020 .side-nav .bg-recreation { margin-bottom: 21px; background-image: url(nrecreation.png); }
+.cross-year-2020 .side-nav .bg-recreation:hover, .cross-year-2020 .side-nav .bg-recreation.active { background-image: url(nrecreation_h.png); }
+.cross-year-2020 .side-nav .bg-dynamic { margin-bottom: 21px; background-image: url(ndynamic.png); }
+.cross-year-2020 .side-nav .bg-dynamic:hover, .cross-year-2020 .side-nav .bg-dynamic.active { background-image: url(ndynamic_h.png); }
 
 /*# sourceMappingURL=cross-year.css.map */

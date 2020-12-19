@@ -8,6 +8,7 @@
 		<style type="text/css">
 			body,
 			div,
+			h2,
 			h4,
 			html,
 			li,
@@ -26,7 +27,7 @@
 				<div class="body-bg" style="transform: scale(2); opacity: 0;"></div>
 				<div class="kv-bg" style="transform: translateY(0px); opacity: 1;"></div>
 				<div class="kv-sun" style="transform: translateY(0px); opacity: 1;"></div>
-				<div class="star-layer"><canvas id="star" width="1920" height="1080"></canvas></div>
+				<div class="star-layer"><canvas width="1920" height="1080"></canvas></div>
 				<div class="kv-cloud-l" style="transform: scale(1); opacity: 1;"></div>
 				<div class="kv-cloud-r" style="transform: scale(1); opacity: 1;"></div>
 				<div class="kv-man" style="transform: scale(1); opacity: 1;"></div>
@@ -48,9 +49,49 @@
 			</div>
 			<div class="cross-year-2020">
 				<div id="preorder"></div>
-				<div style="position: relative; height: 5000px; width: 1220px; margin: 0 auto;">
-					<div class="star-item-wrapper" style="position: absolute; width: 50px; height: 50px;top: 0px; left: 10px;"><canvas width="170" height="80" style="touch-action: none; position: absolute; bottom: 0px; left: -90px; pointer-events: none; cursor: inherit;"></canvas></div>
-					<div class="star-item-wrapper" style="position: absolute; width: 50px; height: 50px;top: 20px; left: 700px;"><canvas width="170" height="80" style="touch-action: none; position: absolute; bottom: 0px; left: -90px; pointer-events: none; cursor: inherit;"></canvas></div>
+				<div class="inner-content-box">
+					<div id="preview">
+						<h2>精彩预告</h2>
+					</div>
+					<div id="guest-star">
+						<h2>嘉宾阵容</h2>
+						<div class="star-item-wrapper" style="top: 0px; left: 10px;"><canvas width="170" height="80" style="touch-action: none; position: absolute; bottom: 0px; left: -90px; pointer-events: none; cursor: inherit;"></canvas></div>
+						<div class="star-item-wrapper" style="top: 20px; left: 700px;"><canvas width="170" height="80" style="touch-action: none; position: absolute; bottom: 0px; left: -90px; pointer-events: none; cursor: inherit;"></canvas></div>
+					</div>
+					<div id="star">
+						<h2>集星赢礼</h2>
+					</div>
+					<div id="recreation">
+						<h2>精选二创</h2>
+					</div>
+					<div id="dynamic">
+						<h2>动态热议</h2>
+					</div>
+				</div>
+				<div class="side-nav unvisible">
+					<div class="full-sidebar">
+						<div class="toggle-wrapper expanded">
+							<img src="toggle.png" alt="toggle" class="toggle-icon expanded">
+							<a href="#top" class="side-nav-item">
+								<div class="bg-top"></div>
+							</a>
+							<a href="#preview" class="side-nav-item">
+								<div class="bg-preview"></div>
+							</a>
+							<a href="#guest-star" class="side-nav-item">
+								<div class="bg-guest-star"></div>
+							</a>
+							<a href="#star" class="side-nav-item">
+								<div class="bg-star"></div>
+							</a>
+							<a href="#recreation" class="side-nav-item">
+								<div class="bg-recreation"></div>
+							</a>
+							<a href="#dynamic" class="side-nav-item">
+								<div class="bg-dynamic"></div>
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -70,16 +111,31 @@
 
 			$(function() {
 				init();
-				setStyle(getScrollTop());
+				var arrNav = []
+				$(".inner-content-box > div").each(function(index, item) {
+					arrNav.push(item.offsetTop)
+				});
+				setStyle(getScrollTop(), getWindowH(), arrNav);
 				setTimeout(drawStar, 2000);
+				$(window).scroll(function() {
+					var h = getWindowH();
+					var top = getScrollTop();
+					setStyle(top, h, arrNav);
+				});
 				var x = document.querySelectorAll(".star-item-wrapper");
 				$.each(x, function(index, item) {
 					drawbling(item.children[0])
 				});
-				$(window).scroll(function() {
-					var top = $(this).scrollTop();
-					setStyle(top);
-				})
+				$(".toggle-icon").on("click", function() {
+					var $this = $(this)
+					if($this.hasClass("expanded")) {
+						$this.removeClass("expanded").addClass("hided");
+						$this.parents().removeClass("expanded").addClass("hided");
+					} else {
+						$this.removeClass("hided").addClass("expanded");
+						$this.parents().removeClass("hided").addClass("expanded");
+					}
+				});
 			});
 
 			function init() {
@@ -96,8 +152,8 @@
 			function setW(ratio, h) {
 				var w = getWindowW();
 				$("#preorder").css({
-					height: w + "px",
-					width: h + "px"
+					height: h + "px",
+					width: w + "px"
 				});
 				if(w > (ratio * 1920)) {
 					var _ratio = w / 1920;
@@ -107,9 +163,21 @@
 				}
 			}
 
-			function setStyle(top) {
-				if(top > 730) $(".anime-bg").addClass("no-anime");
-				var ratio = Math.min(730, top) / 730;
+			function setStyle(top, h, arrNav) {
+				var ratio = Math.min(h, top) / h;
+				if(top < h) {
+					$(".side-nav").addClass("unvisible");
+				} else {
+					$(".anime-bg").addClass("no-anime");
+					$(".side-nav").removeClass("unvisible");
+					for(var i = 0; i < arrNav.length; i++) {
+						if(top < arrNav[i]) {
+							$(".side-nav-item").find("div").removeClass("active");
+							$(".side-nav-item:eq(" + i + ")").find("div").addClass("active");
+							break;
+						}
+					};
+				}
 				$(".body-bg").css({
 					transform: "scale(".concat(2 - ratio, ")"),
 					opacity: ratio
@@ -145,7 +213,7 @@
 
 			function drawStar() {
 				$.getJSON("kv-star.json", function(data) {
-					var c = $("#star")[0];
+					var c = $(".star-layer canvas")[0];
 					var ctx = c.getContext("2d");
 					var meta = data.meta;
 					var frames = data.frames;
@@ -189,7 +257,7 @@
 					}
 				})
 			}
-			
+
 			function drawbling(dom) {
 				$.getJSON("bling.json", function(data) {
 					var c = dom;
