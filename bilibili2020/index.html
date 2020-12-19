@@ -18,7 +18,7 @@
 				margin: 0
 			}
 		</style>
-		<link rel="stylesheet" type="text/css" href="cross-year.css" />
+		<link rel="stylesheet" type="text/css" href="assets/cross-year.css" />
 	</head>
 
 	<body>
@@ -71,7 +71,7 @@
 				<div class="side-nav unvisible">
 					<div class="full-sidebar">
 						<div class="toggle-wrapper expanded">
-							<img src="toggle.png" alt="toggle" class="toggle-icon expanded">
+							<img src="assets/toggle.png" alt="toggle" class="toggle-icon expanded">
 							<a href="#top" class="side-nav-item">
 								<div class="bg-top"></div>
 							</a>
@@ -95,7 +95,7 @@
 				</div>
 			</div>
 		</div>
-		<script src="./jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="assets/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			function getWindowW() {
 				return window.innerWidth || window.document.documentElement.clientWidth || window.screen.width
@@ -212,7 +212,7 @@
 			}
 
 			function drawStar() {
-				$.getJSON("kv-star.json", function(data) {
+				$.getJSON("assets/kv-star.json", function(data) {
 					var c = $(".star-layer canvas")[0];
 					var ctx = c.getContext("2d");
 					var meta = data.meta;
@@ -259,7 +259,7 @@
 			}
 
 			function drawbling(dom) {
-				$.getJSON("bling.json", function(data) {
+				$.getJSON("assets/bling.json", function(data) {
 					var c = dom;
 					var ctx = c.getContext("2d");
 					var meta = data.meta;
