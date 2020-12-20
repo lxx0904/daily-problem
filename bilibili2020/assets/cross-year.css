@@ -44,7 +44,7 @@
 .cross-year-2020 { position: relative; z-index: 2; }
 .cross-year-2020 .inner-content-box { text-align: center; color: #fff; }
 .cross-year-2020 .inner-content-box > div { position: relative; width: 1220px; margin: 0 auto; height: 1000px; }
-.cross-year-2020 .inner-content-box .star-item-wrapper { position: absolute; width: 50px; height: 50px; }
+.cross-year-2020 .star-item-wrapper { position: absolute; width: 50px; height: 50px; }
 .cross-year-2020 .side-nav { z-index: 999; position: fixed; right: 0; top: 50%; width: 254px; height: 100%; transform: translateY(-50%); font-size: 28px; font-weight: 400; opacity: 1; transition: all .3s; background: linear-gradient(-90deg, #3f2ca0, rgba(26, 35, 80, 0)); }
 .cross-year-2020 .side-nav.unvisible { opacity: 0; display: none; }
 .cross-year-2020 .side-nav .full-sidebar { display: flex; height: 100%; width: 176px; float: right; align-items: center; justify-content: center; flex-direction: column; }

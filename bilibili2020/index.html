@@ -48,15 +48,22 @@
 				<div class="shadow" style="opacity: 1;"></div>
 			</div>
 			<div class="cross-year-2020">
-				<div id="preorder"></div>
+				<div id="preorder">
+					<div style="height: 100%;">
+						<div style="height: 320px;"></div>
+						<div style="position: relative; transform: scale(0.75) translateY(-25px);">
+							<div class="star-item-wrapper" style="top: 0px; left: 0px;"><canvas width="170" height="80" style="touch-action: none; position: absolute; bottom: 0px; left: -90px;"></canvas></div>
+						</div>
+					</div>
+				</div>
 				<div class="inner-content-box">
 					<div id="preview">
 						<h2>精彩预告</h2>
 					</div>
 					<div id="guest-star">
 						<h2>嘉宾阵容</h2>
-						<div class="star-item-wrapper" style="top: 0px; left: 10px;"><canvas width="170" height="80" style="touch-action: none; position: absolute; bottom: 0px; left: -90px; pointer-events: none; cursor: inherit;"></canvas></div>
-						<div class="star-item-wrapper" style="top: 20px; left: 700px;"><canvas width="170" height="80" style="touch-action: none; position: absolute; bottom: 0px; left: -90px; pointer-events: none; cursor: inherit;"></canvas></div>
+						<div class="star-item-wrapper" style="top: 0px; left: 10px;"><canvas width="170" height="80" style="touch-action: none; position: absolute; bottom: 0px; left: -90px;"></canvas></div>
+						<div class="star-item-wrapper" style="top: 20px; left: 700px;"><canvas width="170" height="80" style="touch-action: none; position: absolute; bottom: 0px; left: -90px;"></canvas></div>
 					</div>
 					<div id="star">
 						<h2>集星赢礼</h2>
@@ -122,9 +129,11 @@
 					var top = getScrollTop();
 					setStyle(top, h, arrNav);
 				});
-				var x = document.querySelectorAll(".star-item-wrapper");
-				$.each(x, function(index, item) {
-					drawbling(item.children[0])
+				getBling().then(function(data) {
+					var x = document.querySelectorAll(".star-item-wrapper");
+					$.each(x, function(index, item) {
+						drawbling(data, index, item.children[0])
+					});
 				});
 				$(".toggle-icon").on("click", function() {
 					var $this = $(this)
@@ -159,6 +168,10 @@
 					var _ratio = w / 1920;
 					$(".anime-bg").css({
 						transform: "scale(".concat(_ratio.toFixed(3), ")", " translateZ(0px)")
+					});
+				} else {
+					$(".anime-bg").css({
+						transform: "scale(".concat(ratio.toFixed(3), ")", " translateZ(0px)")
 					});
 				}
 			}
@@ -229,7 +242,7 @@
 
 					function draw() {
 						index += 1;
-						ctx.clearRect(0, 0, c.width, c.height);
+						ctx.clearRect(0, 0, 1920, 1080);
 						var frame = frames['kv_star_' + index + '.png'].frame;
 						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, 516, 365, frame.w, frame.h);
 						if(index > 40) {
@@ -244,7 +257,7 @@
 
 					function draw1(x1, y1, x2, y2, x3, y3, x4, y4) {
 						index += 1;
-						ctx.clearRect(0, 0, c.width, c.height);
+						ctx.clearRect(0, 0, 1920, 1080);
 						var frame = frames['kv_star_' + index + '.png'].frame;
 						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, x1, y1, frame.w, frame.h);
 						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, x2, y2, frame.w, frame.h);
@@ -258,37 +271,80 @@
 				})
 			}
 
-			function drawbling(dom) {
-				$.getJSON("assets/bling.json", function(data) {
-					var c = dom;
-					var ctx = c.getContext("2d");
-					var meta = data.meta;
-					var frames = data.frames;
+			function drawbling(data, domIndex, dom) {
+				var c = dom;
+				var ctx = c.getContext("2d");
+				var meta = data.meta;
+				var frames = data.frames;
+
+				var p1 = new Promise(function(resolve) {
 					var img = new Image();
-					var timer = null;
-					var index = 0;
 					img.onload = function() {
-						timer = setInterval(function() {
-							draw();
-						}, 1000 / 16)
+						resolve(img)
+					}
+					img.src = "assets/bubble.png";
+				})
+
+				var p2 = new Promise(function(resolve) {
+					var img = new Image();
+					img.onload = function() {
+						resolve(img)
 					}
 					img.src = meta.image;
+				})
 
-					function draw() {
-						index += 1;
-						ctx.clearRect(0, 0, c.width, c.height);
-						var frame = frames['bling_' + index + '.png'].frame;
-						ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, 80, -10, frame.w, frame.h);
-						if(index > 23) {
-							clearInterval(timer);
-							timer = null;
-							index = 0;
-							timer = setInterval(function() {
-								draw();
-							}, 1000 / 16)
+				var step = 0;
+				var type = "add";
+				var temp = document.createElement('canvas');
+				var tempctx = temp.getContext("2d");
+				var index = 0;
+
+				Promise.all([p1, p2]).then(function(result) {
+					if(domIndex === 0) tempctx.drawImage(result[0], 0, 0)
+					setInterval(function() {
+						ctx.clearRect(0, 0, 170, 80);
+						if(domIndex === 0) bubble();
+						bling(result[1]);
+					}, 1000 / 12)
+				})
+
+				function bubble() {
+					var imgData = tempctx.getImageData(0, 0, 89, 30);
+					for(var i = 0; i < imgData.data.length; i += 4) {
+						imgData.data[i + 3] = imgData.data[i + 3] - step * 10;
+					}
+					if(type === "reduce") {
+						step--;
+						if(step < 0) {
+							type = "add";
+						}
+					} else {
+						step++;
+						if(step > 8) {
+							type = "reduce"
 						}
 					}
+					ctx.putImageData(imgData, step, 25);
+				}
+
+				function bling(img) {
+					index += 1;
+					var frame = frames['bling_' + index + '.png'].frame;
+					ctx.drawImage(img, frame.x, frame.y, frame.w, frame.h, 80, -10, frame.w, frame.h);
+					if(index > 23) index = 0;
+				}
+
+				c.addEventListener('click', function() {
+					console.log(this)
 				})
+			}
+
+			function getBling() {
+				return new Promise(function(resolve) {
+					$.getJSON("assets/bling.json", function(data) {
+						resolve(data)
+					});
+				});
 			}
 		</script>
 	</body>
