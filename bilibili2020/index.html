@@ -183,13 +183,12 @@
 				} else {
 					$(".anime-bg").addClass("no-anime");
 					$(".side-nav").removeClass("unvisible");
-					for(var i = 0; i < arrNav.length; i++) {
-						if(top < arrNav[i]) {
-							$(".side-nav-item").find("div").removeClass("active");
-							$(".side-nav-item:eq(" + i + ")").find("div").addClass("active");
-							break;
-						}
-					};
+					var i = 0;
+					while (top + 10 > arrNav[i]){
+						i++;
+					}
+					$(".side-nav-item").find("div").removeClass("active");
+					$(".side-nav-item:eq(" + i + ")").find("div").addClass("active");
 				}
 				$(".body-bg").css({
 					transform: "scale(".concat(2 - ratio, ")"),
