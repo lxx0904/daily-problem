@@ -2,13 +2,13 @@
 
 ~~~ javascript
     # Sass
-    npm install -D sass-load node-sass
+    npm install -D node-sass sass-loader
 
     # Less
-    npm install -D less-load less
+    npm install -D less less-loader
 
     #Stylus
-    npm install -D stylus-load stylus
+    npm install -D stylus stylus-loader
 
 ~~~
 
